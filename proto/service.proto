@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+service Branch {
+    // Branch Services 
+    rpc Deposit(DepositRequest) returns (DepositResponse);
+    rpc Withdraw(WithdrawRequest) returns (WithdrawResponse);
+    rpc Query(QueryRequest) returns (QueryResponse);
+    rpc WithdrawPropogate(WithdrawPropogateRequest) returns (WithdrawPropogateResponse);
+    rpc DepositPropogate(DepositPropogateRequest) returns (DepositPropogateResponse);
+
+}
+
+// API Requests
+message WithdrawRequest {
+    int32 id = 1;
+    int32 clock = 2;
+    Event event = 3;
+}
+
+message DepositRequest {
+    int32 id = 1;
+    int32 clock = 2;
+    Event event = 3;
+}
+
+message QueryRequest {
+    int32 id = 1;
+    int32 clock = 2;
+    Event event = 3;
+}
+
+message WithdrawPropogateRequest {
+    int32 id = 1;
+    int32 event_id = 2;
+    int32 balance = 3;
+    int32 clock = 4;
+}
+
+message DepositPropogateRequest {
+    int32 id = 1;
+    int32 event_id = 2;
+    int32 balance = 3;
+    int32 clock = 4;
+}
+
+message Event {
+    int32 id = 1;
+    Interface interface = 2;
+    int32 money = 3;
+}
+
+
+//API Responses
+message WithdrawResponse {
+    int32 id = 1;
+    Interface interface = 2;
+    Result result = 3;
+    repeated ClockEvent clock_events = 4;
+}
+
+message DepositResponse {
+    int32 id = 1;
+    Interface interface = 2;
+    Result result = 3;
+    repeated ClockEvent clock_events = 4;
+}
+
+message QueryResponse {
+    int32 id = 1;
+    Interface interface = 2;
+    int32 money = 3;
+    Result result = 4;
+}
+
+message WithdrawPropogateResponse {
+    int32 id = 1;
+    Result result = 2;
+    repeated ClockEvent clock_events = 3;
+    int32 clock = 4;
+}
+
+message DepositPropogateResponse {
+    int32 id = 1;
+    Result result = 2;
+    repeated ClockEvent clock_events = 3;
+    int32 clock = 4;
+}
+
+message ClockEvent { 
+    int32 id = 1;
+    int32 event_id = 2;
+    string name = 3;
+    int32 clock = 4;
+}
+
+enum Result {
+    uknown=0;
+    success=1;
+    failure=2;
+}
+
+enum Interface {
+    undefined=0;
+    deposit=1;
+    withdraw=2;
+    query=3;
+}
