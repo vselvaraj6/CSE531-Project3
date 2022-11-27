@@ -24,7 +24,7 @@ def parse_input_file():
 def start_bank_process(id, balance, branches, port, data):
     GRPC_BIND_ADDR = '[::]:'+str(port)
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), options=(('grpc.so_reuseport',0),))
-    service_pb2_grpc.add_BranchServicer_to_server(BranchServicer(id, balance, branches, 1, data), server)
+    service_pb2_grpc.add_BranchServicer_to_server(BranchServicer(id, balance, branches, 1), server)
     server.add_insecure_port(GRPC_BIND_ADDR)
     server.start()
     print("gRPC Bank process started for ID:" , id, "Listening on port:",  GRPC_BIND_ADDR)
@@ -53,7 +53,7 @@ for branch_input_item in branch_input_items:
 for branch_input_item in branch_input_items:
     branch_id = branch_input_item.get('id')
     data_dict = {branch_id: []}
-    branch = BranchServicer(branch_id, branch_input_item.get('balance'), port_map, 1, data_dict)
+    branch = BranchServicer(branch_id, branch_input_item.get('balance'), port_map, 1)
     print("Invoking branch process for id : ", branch.id)
     branch_process = Process(target=start_bank_process, args=(branch.id,branch.balance,branch.branches,port_map.get(branch.id),data_dict))
     branch_processes.append(branch_process)

@@ -32,7 +32,7 @@ customers = []
 customer_processes = []
 
 for customer_input_item in customer_input_items:
-    customer = Customer(customer_input_item.get('id'),customer_input_item.get('events'), 1)
+    customer = Customer(customer_input_item.get('id'),customer_input_item.get('events'))
     customers.append(customer)
 
 #Invoke withdraw and deposit interface
@@ -62,43 +62,23 @@ for customer in customers:
 for customer_process in customer_processes:
     customer_process.join()    
 
-eventid_dict = dict()
-pid_dict = dict()
-
-for customer in customers:
-    if len(customer.data):
-        for data in customer.data:
-            for clock in data:
-                if pid_dict.keys().__contains__(clock.id):
-                    value = pid_dict[clock.id]
-                    value.extend([PIdData(clock.event_id, clock.name, clock.clock)])
-                else:
-                    pid_dict[clock.id] = [PIdData(clock.event_id, clock.name, clock.clock)]
-
-                if eventid_dict.keys().__contains__(clock.event_id):
-                    value = eventid_dict[clock.event_id]    
-                    value.extend([EventIdData(clock.clock, clock.name)])
-                else:
-                    eventid_dict[clock.event_id] = [EventIdData(clock.clock, clock.name)]
-
-
-# Print Final output for Process IDs
-for key in pid_dict:
-    print("{'pid':" + str(key) + ",")
-    print("'data': [")
-    for value in pid_dict[key]:
-        print(value)
-    print("]}")    
-
-# Print Final output for Event IDs
-for key in eventid_dict:
-    print("{'eventid':" + str(key) + ",")
-    print("'data': [")
-    for value in eventid_dict[key]:
-        print(value)
-    print("]}")    
-
-
 with open('output.txt', 'w') as f:
-    for customer in customers:
-        f.writelines(repr(customer))
+    f.write('[')
+    
+    for idx, customer in enumerate(customers):
+        results = customer.recvMsg
+        
+        for result in results:
+           
+            if result.balance == None:
+                f.writelines("{ 'id': " + str(result.id) + ", 'balance': 0 }" )
+            else:
+                f.writelines("{ 'id': " + str(result.id) + ", 'balance': " + str(result.balance) + "}")
+
+        if idx < len(customers) - 1:
+            f.write(',')   
+    f.write(']')        
+
+# with open('output.txt', 'w') as f:
+#     for customer in customers:
+#         f.writelines(repr(customer.recvMsg))

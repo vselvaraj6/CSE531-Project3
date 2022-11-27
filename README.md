@@ -1,6 +1,6 @@
-# BankingSystem - Logical Clock (Lamport's Algorithm)
+# BankingSystem - Client-Centric Consistency 
 
-This project is continuation of [Project-1](https://github.com/vselvaraj6/CSE531-Project1), to implement Lamport’s Logical Clock algorithm to record the logical clock between the branch processes and customer processes. This logical clock will ensure the happens-before relationship between the processes for inter-process and intra-process communications. This algorithm is implemented using six sub-interfaces (Event_Request, Event_Execute, Propagate_Request, Propogate_Execute, Propogate_Response, Event_Response) that updates the local clock of the branch process and records the local clock of events. Invoke the sub-interfaces in the appropriate location of Withdraw and Deposit interfaces, so that the happens-before order is preserved.
+This project is continuation of [Project-1](https://github.com/vselvaraj6/CSE531-Project1), to implement the client-centric consistency model on top of Project 1: gRPC, specifically Montonic Write consistency and Read your Write Consistency of the replicated data in the bank.
 
 ## Technologies used
 - Python 3.10.X
