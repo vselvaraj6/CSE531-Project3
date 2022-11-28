@@ -23,6 +23,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
        return "id: {0}, balance: {1}, branches: {2}, data: {3}".format(self.id,self.balance,self.branches,self.data)     
 
     def orchestrate_propogate_withdraw(self, id, event_id, port):
+      """
+      This method is to orchestrate and invoke propogate withdraw to other branches
+      """
       host = 'localhost:'+str(port)
       result = None
       with grpc.insecure_channel(host) as channel:
@@ -33,6 +36,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
       return result
 
     def orchestrate_propogate_deposit(self, id, event_id, port):
+      """
+      This method is to orchestrate and invoke propogate deposit to other branches
+      """
       host = 'localhost:'+str(port)
       result = None
       with grpc.insecure_channel(host) as channel:
@@ -45,6 +51,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
 
     # TODO: students are expected to process requests from both Client and Branch
     def Withdraw(self, request, context):
+        """
+        This method is the implementation of Withdraw RPC method to perform withdraw opeation, deducts from the balance
+        """
         output = service_pb2.WithdrawResponse()
         try:
           event = request.event
@@ -63,6 +72,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         return output
 
     def Deposit(self, request, context):
+        """
+        This method is the implementation of Deposit RPC method to perform deposit opeation, adds to the balance
+        """
         output = service_pb2.DepositResponse()
         try:
           event = request.event 
@@ -82,15 +94,20 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         return output    
 
     def Query(self, request, context):
+        """
+        This method is the implementation of Query RPC method to perform query opeation, returns the balance
+        """
         output = service_pb2.QueryResponse()
         output.balance = self.balance  
         output.id = request.id
         output.result = 1
         output.interface = 3
-        print('output: ', output)
         return output
 
     def WithdrawPropogate(self, request, context):
+        """
+        This method is the implementation of WithdrawPropogate RPC method to perform propogate withdraw opeation to all other branches
+        """
         output = service_pb2.WithdrawPropogateResponse()
 
         try:
@@ -103,6 +120,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         return output
 
     def DepositPropogate(self, request, context):
+      """
+        This method is the implementation of DepositPropogate RPC method to perform propogate deposit opeation to all other branches
+      """
       output = service_pb2.DepositPropogateResponse() 
 
       try:

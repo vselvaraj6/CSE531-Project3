@@ -22,6 +22,9 @@ def parse_input_file():
 
 
 def start_bank_process(id, balance, branches, port, data):
+    """
+    This method is a helper method to start bank branch processes - each branch processes run on its own ports
+    """
     GRPC_BIND_ADDR = '[::]:'+str(port)
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), options=(('grpc.so_reuseport',0),))
     service_pb2_grpc.add_BranchServicer_to_server(BranchServicer(id, balance, branches, 1), server)
@@ -50,6 +53,7 @@ for branch_input_item in branch_input_items:
     port_map[key] = port
     port = port + 1
 
+# Spin up branch processes for each branch events concurrently in its own port
 for branch_input_item in branch_input_items:
     branch_id = branch_input_item.get('id')
     data_dict = {branch_id: []}

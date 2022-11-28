@@ -6,6 +6,9 @@ import json
 import sys
 
 class Customer:
+    """
+    This class is for customer to hold information about customer and invoke respective operation based on deposit, withdraw and query operations
+    """
     def __init__(self, id, events):
         # unique ID of the Customer
         self.id = id
@@ -25,6 +28,9 @@ class Customer:
         return str(self)     
 
     def executeWithdrawEvents(self):
+        """
+        This method is to invoke withdraw operation for all events for the customers
+        """
 
         for event in self.events:
             if event.get('interface') == 'withdraw':
@@ -38,6 +44,10 @@ class Customer:
                 channel.close()   
 
     def executeDepositEvents(self):
+
+        """
+        This method is to invoke deposit operation for all events for the customers
+        """
 
         for event in self.events:
             if event.get('interface') == 'deposit':
@@ -53,7 +63,10 @@ class Customer:
                 channel.close()                                
 
     def executeQueryEvents(self):
-        
+        """
+        This method is to invoke query operation for all events for the customers
+        """
+
         for event in self.events:
             if event.get('interface') == 'query':
                 dest = event.get('dest')

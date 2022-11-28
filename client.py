@@ -2,8 +2,6 @@ import json
 import sys
 import time
 from customer import Customer
-from pid_data import PIdData
-from eventid_data import EventIdData
 from multiprocessing import Process
 
 
@@ -62,6 +60,8 @@ for customer in customers:
 for customer_process in customer_processes:
     customer_process.join()    
 
+
+# Prints the result to output.txt file
 with open('output.txt', 'w') as f:
     f.write('[')
     
@@ -78,7 +78,3 @@ with open('output.txt', 'w') as f:
         if idx < len(customers) - 1:
             f.write(',')   
     f.write(']')        
-
-# with open('output.txt', 'w') as f:
-#     for customer in customers:
-#         f.writelines(repr(customer.recvMsg))
