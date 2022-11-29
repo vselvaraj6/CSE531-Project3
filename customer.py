@@ -29,7 +29,7 @@ class Customer:
 
     def executeWithdrawEvents(self):
         """
-        This method is to invoke withdraw operation for all events for the customers
+        This method is to invoke withdraw operation for all events per customer, based on the destination passed in the request
         """
 
         for event in self.events:
@@ -46,7 +46,7 @@ class Customer:
     def executeDepositEvents(self):
 
         """
-        This method is to invoke deposit operation for all events for the customers
+        This method is to invoke deposit operation for all events per customer, based on the destination passed in the request
         """
 
         for event in self.events:
@@ -64,7 +64,7 @@ class Customer:
 
     def executeQueryEvents(self):
         """
-        This method is to invoke query operation for all events for the customers
+        This method is to invoke query operation for all events per customer process, based on the destination passed in the request
         """
 
         for event in self.events:
