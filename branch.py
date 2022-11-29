@@ -5,6 +5,9 @@ import time
 
 class BranchServicer(service_pb2_grpc.BranchServicer):
 
+    """
+    This class is for branch to hold information about branch and implement Deposit, Withdraw, Query, PropogateWithdraw and PropogateDeposit operations
+    """
     def __init__(self, id, balance, branches, data):
         # unique ID of the Branch
         self.id = id

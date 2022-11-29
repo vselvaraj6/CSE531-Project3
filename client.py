@@ -71,10 +71,10 @@ with open('output.txt', 'w') as f:
         for result in results:
            
             if result.balance == None:
-                f.writelines("{ 'id': " + str(result.id) + ", 'balance': 0 }" )
+                f.writelines("{'id': " + str(result.id) + ", 'balance': 0}" )
             else:
-                f.writelines("{ 'id': " + str(result.id) + ", 'balance': " + str(result.balance) + "}")
+                f.writelines("{'id': " + str(result.id) + ", 'balance': " + str(result.balance) + "}")
 
         if idx < len(customers) - 1:
-            f.write(',')   
+            f.write(', ')   
     f.write(']')        
